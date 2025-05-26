@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtualenv
+venv/
+.env/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Poetry
+poetry.lock
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.cache
+.pytest_cache/
+
+# Docker
+*.container
+*.log
+*.pid
+*.seed
+*.tar
+*.bak
+docker-compose.override.yml
+
+# Node / React Native / Expo
+frontend/node_modules/
+frontend/npm-debug.log*
+frontend/.expo/
+frontend/.expo-shared/
+frontend/web-build/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+frontend/.DS_Store
+
+# Yarn (varsa)
+frontend/yarn-error.log
+frontend/yarn-debug.log
+frontend/yarn.lock
+
+# Android/iOS build artifacts (Expo/Bare React Native)
+frontend/android/
+frontend/ios/
