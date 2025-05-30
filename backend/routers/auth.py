@@ -5,50 +5,54 @@ from google.auth.transport import requests as grequests
 from jose import jwt
 from sqlalchemy.orm import Session
 import os
-
+from datetime import datetime, timedelta
 from ..database import get_db
 from ..models.user import User
 
 router = APIRouter()
 
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-ALGORITHM = "HS256"
-
 class GoogleLoginRequest(BaseModel):
     token: str
+    client_type: str
 
 @router.post("/auth/google-login")
 def google_login(data: GoogleLoginRequest, db: Session = Depends(get_db)):
-    try:
-        # 1. Google'dan id_token'ı doğrula ve kullanıcı bilgilerini al
-        idinfo = id_token.verify_oauth2_token(
-            data.token, grequests.Request(), GOOGLE_CLIENT_ID
-        )
-        email = idinfo["email"]
-        print(email)
-        full_name = idinfo.get("name")
-        profile_image = idinfo.get("picture")
-        google_id = idinfo["sub"]
+    # Env değişkenlerini burada oku!
+    GOOGLE_CLIENT_ID_IOS = os.getenv("EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS")
+    GOOGLE_CLIENT_ID_ANDROID = os.getenv("EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
-        # 2. Kullanıcı veritabanında var mı?
-        user = db.query(User).filter(User.email == email).first()
+    if not all([GOOGLE_CLIENT_ID_IOS, GOOGLE_CLIENT_ID_ANDROID, JWT_SECRET_KEY]):
+        print("Env değişkenleri eksik!")
+        raise HTTPException(status_code=500, detail="Sunucu yapılandırması eksik")
+
+    try:
+        if data.client_type == "ios":
+            google_client_id = GOOGLE_CLIENT_ID_IOS
+        elif data.client_type == "android":
+            google_client_id = GOOGLE_CLIENT_ID_ANDROID
+        else:
+            raise Exception("Bilinmeyen client_type")
+
+        idinfo = id_token.verify_oauth2_token(
+            data.token, grequests.Request(), google_client_id
+        )
+        user = db.query(User).filter(User.email == idinfo["email"]).first()
         if not user:
             user = User(
-                email=email,
-                full_name=full_name,
-                profile_image=profile_image,
-                google_id=google_id
+                email=idinfo["email"],
+                full_name=idinfo.get("name"),
+                profile_image=idinfo.get("picture"),
+                google_id=idinfo["sub"]
             )
             db.add(user)
             db.commit()
             db.refresh(user)
 
-        # 3. JWT oluştur
-        token_data = {"sub": user.email}
-        jwt_token = jwt.encode(token_data, JWT_SECRET_KEY, algorithm=ALGORITHM)
+        expire = datetime.utcnow() + timedelta(days=90)
+        token_data = {"sub": user.email, "exp": int(expire.timestamp())}
+        jwt_token = jwt.encode(token_data, JWT_SECRET_KEY, algorithm="HS256")
 
-        # 4. Frontend'e JWT ve kullanıcı verisi dön
         return {
             "access_token": jwt_token,
             "user": {
@@ -57,7 +61,6 @@ def google_login(data: GoogleLoginRequest, db: Session = Depends(get_db)):
                 "profile_image": user.profile_image,
             }
         }
-
     except Exception as e:
         print(e)
         raise HTTPException(

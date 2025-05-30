@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { GoogleSignin, statusCodes, GoogleSigninButton, isSuccessResponse } from "@react-native-google-signin/google-signin";
 import { loginWithGoogleBackend } from "../api/auth";
+import { Platform } from "react-native";
+import axios from "axios";
 
 export default function GoogleLoginButton({ onSuccess }) {
   const [isInProgress, setIsInProgress] = useState(false);
@@ -10,6 +12,7 @@ export default function GoogleLoginButton({ onSuccess }) {
     GoogleSignin.configure({
       iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS,
       webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
+      forceCodeForRefreshToken: true, // Refresh token almak için
     });
   }, []);
 
@@ -19,9 +22,19 @@ export default function GoogleLoginButton({ onSuccess }) {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
-        const { idToken, user } = response.data;
-        const { name, email, photo } = user;
-        console.log("Google Giriş Başarılı:", user);
+        const { idToken } = response.data;
+        const clientType = Platform.OS; // "ios" veya "android"
+        try {
+          const backendRes = await loginWithGoogleBackend(idToken, clientType);
+    
+          // JWT'yi güvenli sakla (JWT' yi alıp saklamak için burayı düzenle)
+          // await SecureStore.setItemAsync("jwt", backendRes.access_token);
+          // Kullanıcı verisiyle devam et
+          // örn: onSuccess(backendRes.user, backendRes.access_token);
+
+        } catch (e) {
+          Alert.alert("Backend Hatası", "Sunucu ile iletişim başarısız.");
+        }
       } else {
         Alert.alert("Giriş Hatası", "Google kimlik doğrulama başarısız oldu.");
       }
