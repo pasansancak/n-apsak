@@ -1,21 +1,31 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "N'apsak?",
+    "scheme": "napsak_scheme",
+    "slug": "napsak",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "icon": "assets/icon.png",
+    "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.pasansancak.napsak",
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
+      "package": "com.pasansancak.napsak",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -24,6 +34,19 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.937080675162-vpumv0kdcbccbpl2nbubotrnaf12ba5d"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4e8e73c8-eb29-48c3-8674-af8639239a9a"
+      }
     }
   }
 }
