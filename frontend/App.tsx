@@ -1,9 +1,11 @@
-import React from 'react';
-// Import your LoginScreen (adjust the path if needed)
-import LoginScreen from './src/screens/LoginScreen';
+import React from "react";
+import { UserProvider } from "./src/context/UserContext";
+import AppNavigator from "./src/navigation/AppNavigator";
 
-const App: React.FC = () => {
-  return <LoginScreen />;
-};
-
-export default App;
+export default function App() {
+  return (
+    <UserProvider>
+      <AppNavigator />
+    </UserProvider>
+  );
+}

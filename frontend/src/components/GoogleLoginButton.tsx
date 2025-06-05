@@ -26,11 +26,12 @@ export default function GoogleLoginButton({ onSuccess }) {
         const clientType = Platform.OS; // "ios" veya "android"
         try {
           const backendRes = await loginWithGoogleBackend(idToken, clientType);
-    
           // JWT'yi güvenli sakla (JWT' yi alıp saklamak için burayı düzenle)
           // await SecureStore.setItemAsync("jwt", backendRes.access_token);
           // Kullanıcı verisiyle devam et
-          // örn: onSuccess(backendRes.user, backendRes.access_token);
+          console.log("Backend'den gelen kullanıcı verisi:", backendRes.user);
+          onSuccess(backendRes.user, backendRes.access_token);
+          
 
         } catch (e) {
           Alert.alert("Backend Hatası", "Sunucu ile iletişim başarısız.");
