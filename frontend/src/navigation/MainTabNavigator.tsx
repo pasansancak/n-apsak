@@ -9,17 +9,32 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
+const NEON = "#D6FF00";
+const DARK_BG = "#181818";
+const KNOCKBOLD = "KnockoutBold";
+
 export default function MainTabNavigator() {
   return (
     <Tab.Navigator
-      id={undefined}
+    id={undefined}
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#334155',
-        tabBarInactiveTintColor: '#94a3b8',
+        tabBarStyle: {
+          backgroundColor: DARK_BG,
+          borderTopColor: "#23272f",
+          borderTopWidth: 2,
+          height: 70,
+        },
+        tabBarActiveTintColor: NEON,
+        tabBarInactiveTintColor: "#aaa",
+        tabBarLabelStyle: {
+          fontFamily: KNOCKBOLD,
+          fontSize: 13,
+          marginBottom: 6,
+        },
         tabBarIcon: ({ color, size }) => {
           let iconName: React.ComponentProps<typeof Ionicons>['name'] = 'home-outline';
-          if (route.name === 'Feed') iconName = 'home-outline';
+          if (route.name === 'Feed') iconName = 'menu-outline';
           else if (route.name === 'Advice') iconName = 'bulb-outline';
           else if (route.name === 'Plan') iconName = 'calendar-outline';
           else if (route.name === 'Community') iconName = 'people-outline';

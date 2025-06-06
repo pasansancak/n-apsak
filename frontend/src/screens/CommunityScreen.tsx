@@ -1,6 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+const NEON = "#D6FF00";
+const DARK_BG = "#181818";
+const KNOCKBOLD = "KnockoutBold";
+
 export default function CommunityScreen() {
   return (
     <View style={styles.container}>
@@ -10,6 +14,6 @@ export default function CommunityScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f1f5f9" },
-  text: { fontSize: 22, fontWeight: "600", color: "#64748b" }
+  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: DARK_BG },
+  text: { fontSize: 22, color: NEON, fontFamily: KNOCKBOLD, letterSpacing: 1.2 }
 });

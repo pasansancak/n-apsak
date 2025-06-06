@@ -15,7 +15,7 @@
     "splash": {
       "image": "assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "bundleIdentifier": "com.pasansancak.napsak",
@@ -28,7 +28,7 @@
       "package": "com.pasansancak.napsak",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true
     },
@@ -41,7 +41,8 @@
         {
           "iosUrlScheme": "com.googleusercontent.apps.937080675162-vpumv0kdcbccbpl2nbubotrnaf12ba5d"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {
