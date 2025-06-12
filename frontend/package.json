@@ -20,15 +20,18 @@
     "expo": "~53.0.9",
     "expo-auth-session": "~6.1.5",
     "expo-dev-client": "~5.1.8",
+    "expo-font": "~13.3.1",
+    "expo-secure-store": "~14.2.3",
     "expo-status-bar": "~2.2.3",
+    "jwt-decode": "^4.0.0",
     "react": "19.0.0",
     "react-native": "0.79.2",
     "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.10.0",
-    "expo-font": "~13.3.1"
+    "react-native-screens": "~4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/jwt-decode": "^2.2.1",
     "@types/react": "~19.0.10",
     "@types/react-native": "^0.72.8",
     "typescript": "~5.8.3"

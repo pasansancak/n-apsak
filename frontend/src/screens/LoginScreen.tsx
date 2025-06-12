@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, S
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "../context/UserContext";
-import { Button } from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,13 +20,12 @@ export default function LoginScreen({ navigation }) {
     linkedin: "remzi-yazici",
   };
 
-  const handleLoginSuccess = (user: any, jwt: string) => {
+  const handleLoginSuccess = async (user: any, jwt: string) => {
+    await SecureStore.setItemAsync("jwt", jwt);
     setUser(user);
     console.log("user:", user);
-    navigation.replace("MainTabs"); // tab navigator’a yönlendir
   };
   
-
   return (
     <SafeAreaView style={styles.safe}>
       <ImageBackground
@@ -68,7 +67,6 @@ export default function LoginScreen({ navigation }) {
             style={styles.button}
             onPress={() => {
               setUser(test_user);
-              navigation.replace("MainTabs");
             }}
           >
             <Text style={styles.buttonText}>Giriş Yap</Text>

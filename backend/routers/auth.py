@@ -17,7 +17,6 @@ class GoogleLoginRequest(BaseModel):
 
 @router.post("/auth/google-login")
 def google_login(data: GoogleLoginRequest, db: Session = Depends(get_db)):
-    # Env değişkenlerini burada oku!
     GOOGLE_CLIENT_ID_IOS = os.getenv("EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS")
     GOOGLE_CLIENT_ID_ANDROID = os.getenv("EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
@@ -38,6 +37,7 @@ def google_login(data: GoogleLoginRequest, db: Session = Depends(get_db)):
             data.token, grequests.Request(), google_client_id
         )
         user = db.query(User).filter(User.email == idinfo["email"]).first()
+        print(idinfo)
         if not user:
             user = User(
                 email=idinfo["email"],

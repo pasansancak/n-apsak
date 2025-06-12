@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from "../context/UserContext";
+import * as SecureStore from "expo-secure-store";
 
 const screenWidth = Dimensions.get('window').width;
 const defaultCover = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80';
@@ -12,9 +13,19 @@ const CARD_BG = "#23272f";
 const KNOCKBOLD = "KnockoutBold";
 
 export default function ProfileScreen() {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   if (!user) return <Text style={{ color: NEON, fontFamily: KNOCKBOLD, textAlign: "center", marginTop: 32 }}>Kullanıcı verisi bulunamadı.</Text>;
+
+  // LOGOUT fonksiyonu
+  const handleLogout = async () => {
+    // JWT'yi cihazdan sil
+    await SecureStore.deleteItemAsync("jwt");
+    // User context'i sıfırla
+    setUser(null);
+    // (İsteğe bağlı: Uyarı veya navigasyon ekleyebilirsin)
+    Alert.alert("Çıkış Yapıldı", "Başarıyla çıkış yaptınız.");
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: DARK_BG }}>
@@ -25,6 +36,10 @@ export default function ProfileScreen() {
           <Text style={styles.name}>{user.full_name}</Text>
           <Text style={styles.email}>{user.email}</Text>
           {user.bio ? <Text style={styles.bio}>{user.bio}</Text> : null}
+          {/* LOGOUT BUTTON */}
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutButtonText}>Çıkış Yap</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -71,5 +86,20 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     fontFamily: KNOCKBOLD,
     opacity: 0.85
-  }
+  },
+  logoutButton: {
+    backgroundColor: NEON,
+    borderRadius: 10,
+    marginTop: 32,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    alignItems: "center",
+  },
+  logoutButtonText: {
+    color: "#23272f",
+    fontFamily: KNOCKBOLD,
+    fontSize: 16,
+    fontWeight: "bold",
+    letterSpacing: 1.2,
+  },
 });

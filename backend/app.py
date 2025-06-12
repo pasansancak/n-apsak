@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from backend.routers import auth
+from backend.routers import user
 from backend.database import Base, engine
-from backend.models import user, plan  # Import your models here
 from dotenv import load_dotenv
 import os
 
@@ -13,6 +13,7 @@ print("table check")
 
 app = FastAPI()
 app.include_router(auth.router)
+app.include_router(user.router)
 
 @app.get("/")
 def read_root():
