@@ -20,6 +20,9 @@
     "ios": {
       "bundleIdentifier": "com.pasansancak.napsak",
       "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBRe7uo-5Ibih57z2zDbZb81vblcRCAgiI"
+      },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -43,7 +46,9 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-asset"
     ],
     "extra": {
       "eas": {
