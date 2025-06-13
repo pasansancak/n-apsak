@@ -37,7 +37,6 @@ def google_login(data: GoogleLoginRequest, db: Session = Depends(get_db)):
             data.token, grequests.Request(), google_client_id
         )
         user = db.query(User).filter(User.email == idinfo["email"]).first()
-        print(idinfo)
         if not user:
             user = User(
                 email=idinfo["email"],

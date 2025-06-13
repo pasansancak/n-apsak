@@ -5,13 +5,18 @@ import { jwtDecode } from "jwt-decode";
 import { getUserMe } from "../api/user";
 
 export type User = {
-  full_name: string;
+  id: number;
   email: string;
-  profile_image: string;
+  full_name?: string;
+  profile_image?: string;
   cover_image?: string;
-  bio?: string;
-  instagram?: string;
-  linkedin?: string;
+  google_id: string;
+  interests?: string[];
+  music_types?: string[];
+  venue_types?: string[];
+  personality_traits?: string[];
+  extra_traits?: string[];
+  onboarded: boolean;
 };
 
 type UserContextType = {
@@ -29,7 +34,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const fetchUser = async (token: string) => {
     try {
       const userData = await getUserMe();
-      setUser(userData); // ✅ DOĞRU KULLANIM
+      setUser(userData);
     } catch (error) {
       Alert.alert("Hata", "Kullanıcı bilgisi alınamadı.");
     }

@@ -35,7 +35,6 @@ export default function ProfileScreen() {
           <Image source={{ uri: user.profile_image }} style={styles.avatar} />
           <Text style={styles.name}>{user.full_name}</Text>
           <Text style={styles.email}>{user.email}</Text>
-          {user.bio ? <Text style={styles.bio}>{user.bio}</Text> : null}
           {/* LOGOUT BUTTON */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutButtonText}>Çıkış Yap</Text>

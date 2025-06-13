@@ -10,3 +10,20 @@ export async function getUserMe() {
 
   return response.data;
 }
+
+import * as SecureStore from 'expo-secure-store';
+
+export async function postOnboarding(data: any) {
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL + "/me/onboarding";
+  const token = await SecureStore.getItemAsync("jwt");
+  if (!token) throw new Error("Oturum geçersiz");
+
+  const res = await axios.post(
+    apiUrl,
+    data,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+  return res.data;
+}

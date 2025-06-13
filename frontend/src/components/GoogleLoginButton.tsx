@@ -12,7 +12,7 @@ export default function GoogleLoginButton({ onSuccess }) {
     GoogleSignin.configure({
       iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS,
       webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
-      forceCodeForRefreshToken: true, // Refresh token almak için
+      forceCodeForRefreshToken: true, 
     });
   }, []);
 
@@ -26,10 +26,7 @@ export default function GoogleLoginButton({ onSuccess }) {
         const clientType = Platform.OS;
         try {
           const backendRes = await loginWithGoogleBackend(idToken, clientType);
-          //JWT'yi SecureStore'a kaydet
-          await SecureStore.setItemAsync("jwt", backendRes.access_token);
-          console.log("Backend'den gelen kullanıcı verisi:", backendRes.user);
-          onSuccess(backendRes.user, backendRes.access_token);
+          onSuccess(backendRes.access_token);
         } catch (e) {
           Alert.alert("Backend Hatası", "Sunucu ile iletişim başarısız.");
         }
@@ -38,7 +35,6 @@ export default function GoogleLoginButton({ onSuccess }) {
       }
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // Kullanıcı iptal etti, uyarı gösterme
       } else if (error.code === statusCodes.IN_PROGRESS) {
         Alert.alert("Giriş işlemi zaten devam ediyor.");
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {

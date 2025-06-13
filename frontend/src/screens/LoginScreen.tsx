@@ -4,27 +4,18 @@ import GoogleLoginButton from "../components/GoogleLoginButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "../context/UserContext";
 import * as SecureStore from "expo-secure-store";
+import { getUserMe } from "../api/user";
 
 export default function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
-
   const { setUser } = useUser();
 
-  const test_user = {
-    full_name: "Ahmet Remzi Yazıcı",
-    email: "remzi@mail.com",
-    profile_image: "https://randomuser.me/api/portraits/men/32.jpg",
-    cover_image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    bio: "Araba tutkunu, gıdacı",
-    instagram: "remzi_yazici",
-    linkedin: "remzi-yazici",
-  };
-
-  const handleLoginSuccess = async (user: any, jwt: string) => {
+  const handleLoginSuccess = async (jwt: string) => {
     await SecureStore.setItemAsync("jwt", jwt);
-    setUser(user);
-    console.log("user:", user);
+    const userData = await getUserMe();
+    setUser(userData);
   };
+  
   
   return (
     <SafeAreaView style={styles.safe}>
@@ -66,7 +57,6 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              setUser(test_user);
             }}
           >
             <Text style={styles.buttonText}>Giriş Yap</Text>
