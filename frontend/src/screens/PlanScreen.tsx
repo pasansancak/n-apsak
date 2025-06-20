@@ -17,7 +17,7 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Constants from 'expo-constants';
+import * as Location from 'expo-location';
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -52,13 +52,14 @@ export default function PlanScreen() {
   const dateAnimTranslate = useRef(new Animated.Value(-20)).current;
 
   useEffect(() => {
+    // Animasyonlar (kategori seçimi için)
     const toEvent = selectedCategory === "event";
     Animated.timing(searchShiftAnim, {
       toValue: toEvent ? 1 : 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
-
+  
     Animated.parallel([
       Animated.timing(dateAnimOpacity, {
         toValue: toEvent ? 1 : 0,
@@ -71,6 +72,21 @@ export default function PlanScreen() {
         useNativeDriver: true,
       }),
     ]).start();
+  
+    // Konum izni ve ilk açılışta kullanıcı konumuna git
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Konum izni reddedildi');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setRegion((prev) => ({
+        ...prev,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }));
+    })();
   }, [selectedCategory]);
 
   const formattedDate = selectedDate.toDateString().split(" ").slice(0, 3).join(" ");

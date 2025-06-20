@@ -20,11 +20,12 @@
     "ios": {
       "bundleIdentifier": "com.pasansancak.napsak",
       "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Yakındaki mekanları gösterebilmek için konumunuza ihtiyacımız var.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
       "config": {
         "googleMapsApiKey": "AIzaSyBRe7uo-5Ibih57z2zDbZb81vblcRCAgiI"
-      },
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
