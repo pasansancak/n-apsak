@@ -3,6 +3,7 @@ import * as Font from "expo-font";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { UserProvider, useUser } from "./src/context/UserContext";
 import { View, ActivityIndicator } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler"; // <-- EKLE
 
 function AppRoot() {
   const { user, isLoading } = useUser();
@@ -31,8 +32,10 @@ export default function App() {
   }
 
   return (
-    <UserProvider>
-      <AppRoot />
-    </UserProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <UserProvider>
+        <AppRoot />
+      </UserProvider>
+    </GestureHandlerRootView>
   );
 }

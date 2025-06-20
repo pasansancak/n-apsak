@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@gorhom/bottom-sheet": "^5.1.6",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/datetimepicker": "8.3.0",
     "@react-native-google-signin/google-signin": "^14.0.1",
@@ -28,8 +29,11 @@
     "jwt-decode": "^4.0.0",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-gesture-handler": "^2.26.0",
     "react-native-maps": "1.20.1",
     "react-native-modal-datetime-picker": "^18.0.0",
+    "react-native-reanimated": "^3.18.0",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0"
   },

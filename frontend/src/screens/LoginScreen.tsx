@@ -16,7 +16,6 @@ export default function LoginScreen({ navigation }) {
     setUser(userData);
   };
   
-  
   return (
     <SafeAreaView style={styles.safe}>
       <ImageBackground
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     fontFamily: KNOCKBOLD,
   },
   inputRow: { width: "100%", flexDirection: "row", alignItems: "center" },
-  eyeIcon: { position: "absolute", right: 14 },
+  eyeIcon: { position: "absolute", right: 14, top: 10},
   forgot: { alignSelf: "flex-end", marginBottom: 18 },
   forgotText: { color: NEON, fontSize: 13, fontFamily: KNOCKBOLD },
   button: {
